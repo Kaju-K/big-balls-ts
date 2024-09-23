@@ -1,0 +1,9 @@
+{
+  "navbar": {
+    "hamburger-screen-reader": "Abrir ou fechar menu de navegação", 
+    "links": [["Início", "/"], ["Ligas", "/leagues"], ["Torneios", "/tournments"]],
+    "search": "Procure ligas ou seus amigos", 
+    "login": "Entrar",
+    "avatar-screen-reader": "Abrir opções de usuário"
+  }
+}
