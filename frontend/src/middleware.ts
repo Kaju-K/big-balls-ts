@@ -7,7 +7,7 @@ const locales = ["en", "pt"];
 
 // Get the preferred locale, similar to the above or using a library
 function getLocale(request: NextRequest) {
-  const acceptLanguage = request.headers.get("accept-language");
+  const acceptLanguage = request.headers.get("accept-language") || "";
   const languages = new Negotiator({
     headers: { "accept-language": acceptLanguage },
   }).languages();
