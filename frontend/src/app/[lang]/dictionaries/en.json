@@ -1,9 +1,14 @@
 {
   "navbar": {
     "hamburger-screen-reader": "Toggle navigation menu", 
-    "links": [["Home", "/"], ["Leagues", "/leagues"], ["Tournments", "/tournments"]],
+    "links": [
+      {"text": "Home", "link": "/", "icon": "house"},
+      {"text": "Leagues", "link": "/leagues", "icon": "rows3"},
+      {"text": "Tournments", "link": "/tournments", "icon": "boxes"}
+    ],
     "search": "Search for leagues or friends",
     "login": "Log In",
+    "languages-screen-reader": "Change language",
     "avatar-screen-reader": "Open user options"
   }
 }
