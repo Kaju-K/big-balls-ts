@@ -7,10 +7,131 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id        Int      @id @default(autoincrement())
-  userName  String   @unique
-  email     String   @unique
-  createdAt DateTime @default(now())
-  password  String
+model User {
+  id             Int           @id @default(autoincrement())
+  userName       String        @unique @db.VarChar(30)
+  email          String        @unique
+  createdAt      DateTime      @default(now())
+  password       String
+  chearingTeam   Team          @relation("ChearingTeam", fields: [chearingteamId], references: [id])
+  chearingteamId Int
+  League         League[]
+  Participant    Participant[]
+
+  @@map("users")
+}
+
+model Team {
+  id           Int           @id @default(autoincrement())
+  name         String
+  ChearingUser User[]        @relation("ChearingTeam")
+  Participant  Participant[]
+  hostGames    Game[]        @relation("HostTeam")
+  visitorGames Game[]        @relation("VisitorTeam")
+
+  @@map("teams")
+}
+
+model League {
+  id               Int           @id @default(autoincrement())
+  User             User          @relation(fields: [ownerId], references: [id])
+  ownerId          Int
+  Participant      Participant[]
+  name             String        @db.VarChar(30)
+  dateCreated      DateTime      @default(now())
+  coverImage       String?
+  description      String?       @db.VarChar(200)
+  rule             String        @default("normal") // check better naming
+  LeagueGame       LeagueGame[]
+  private          Boolean       @default(true)
+  isPasswordNeeded Boolean?
+  password         String
+  Tournment        Tournment     @relation(fields: [tournmentId], references: [id])
+  tournmentId      Int
+
+  @@map("leagues")
+}
+
+model Participant {
+  id           Int      @id @default(autoincrement())
+  User         User     @relation(fields: [userId], references: [id])
+  userId       Int
+  League       League   @relation(fields: [leagueId], references: [id])
+  leagueId     Int
+  dateEntrance DateTime @default(now())
+  points       Int      @default(0)
+  Team         Team[]
+  Bet          Bet[]
+  isActive     Boolean  @default(true)
+
+  @@unique([userId, leagueId])
+  @@map("participants")
+}
+
+model LeagueGame {
+  id           Int     @id @default(autoincrement())
+  Bet          Bet[]
+  League       League  @relation(fields: [leagueId], references: [id])
+  leagueId     Int
+  Game         Game    @relation(fields: [gameId], references: [id])
+  gameId       Int
+  isOpenForBet Boolean @default(true)
+
+  @@map("league_games")
+}
+
+model Bet {
+  id            Int         @id @default(autoincrement())
+  isBetCorrect  Boolean?
+  dateCreated   DateTime    @default(now())
+  LeagueGame    LeagueGame  @relation(fields: [leagueGameId], references: [id])
+  leagueGameId  Int
+  Participant   Participant @relation(fields: [participantId], references: [id])
+  participantId Int
+  betAmount     Int
+
+  @@map("bets")
+}
+
+model Game {
+  id            Int               @id @default(autoincrement())
+  LeagueGame    LeagueGame[]
+  dateGame      DateTime
+  hostTeam      Team              @relation("HostTeam", fields: [hostTeamId], references: [id])
+  visitorTeam   Team              @relation("VisitorTeam", fields: [visitorTeamId], references: [id])
+  hostTeamId    Int
+  visitorTeamId Int
+  winner        StatusGameResult? @default(null)
+  hostScore     Int?
+  visitorScore  Int?
+
+  @@map("games")
+}
+
+model Tournment {
+  id         Int       @id @default(autoincrement())
+  name       String
+  dateStart  DateTime
+  dateFinish DateTime?
+  Round      Round[]
+  League     League[]
+
+  @@map("tournments")
+}
+
+model Round {
+  id          Int       @id @default(autoincrement())
+  Tournment   Tournment @relation(fields: [tournmentId], references: [id])
+  tournmentId Int
+  roundNumber Int
+
+  @@map("rounds")
+}
+
+enum StatusGameResult {
+  HOST
+  VISITOR
+  DRAW
+  CANCELED
+  null
 }
