@@ -13,8 +13,8 @@ model User {
   email          String        @unique
   createdAt      DateTime      @default(now())
   password       String
-  chearingTeam   Team          @relation("ChearingTeam", fields: [chearingteamId], references: [id])
-  chearingteamId Int
+  chearingTeam   Team?         @relation("ChearingTeam", fields: [chearingteamId], references: [id])
+  chearingteamId Int?
   League         League[]
   Participant    Participant[]
 
