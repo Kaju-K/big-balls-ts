@@ -1,13 +1,13 @@
-import { DashboardNavComponent } from "@/components/dashboard-nav";
+import { NavComponent } from "@/components/navbar";
 import React from "react";
 import { getDictionary } from "./dictionaries";
 import { LanguagesDictionary } from "@/types/dictionary";
 import { League_Gothic } from "next/font/google";
+import { Footer } from "@/components/footer";
 
 import type { Metadata } from "next";
 
 import "../globals.css";
-import { Footer } from "@/components/footer";
 
 interface IAllPagesLayout {
   children: React.ReactNode;
@@ -35,7 +35,7 @@ export default async function AllPagesLayout({
   return (
     <html lang={lang} className={`dark ${leagueGothic.className}`}>
       <body>
-        <DashboardNavComponent lang={lang} dict={dict} />
+        <NavComponent lang={lang} dict={dict} />
         {children}
         <Footer />
       </body>

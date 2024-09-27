@@ -17,7 +17,7 @@ import { LanguagesDictionary } from "@/types/dictionary";
 import { locales } from "@/utils/locales";
 import { usePathname, useRouter } from "next/navigation";
 
-export function DashboardNavComponent({
+export function NavComponent({
   lang,
   dict,
 }: {
@@ -142,7 +142,7 @@ export function DashboardNavComponent({
             href={`/${lang}/log-in`}
             className="flex h-9 shrink-0 items-center justify-center rounded-md border border-input bg-background px-4 text-sm text-muted-foreground shadow-sm hover:bg-accent hover:text-foreground"
           >
-            Log In
+            {dict.navbar.login}
           </Link>
         ) : (
           <DropdownMenu>
