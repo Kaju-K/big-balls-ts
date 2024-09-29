@@ -3,7 +3,8 @@ import fastifyAutoload from "@fastify/autoload";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import dotenv from "dotenv";
-import prismaPlugin from "./plugins/db";
+import prismaPlugin from "./plugins/db.js";
+import cors from "@fastify/cors";
 
 dotenv.config();
 
@@ -14,11 +15,14 @@ const start = async () => {
   const app: FastifyInstance = fastify({ logger: true });
 
   // loading prisma
-  app.register(prismaPlugin);
+  await app.register(prismaPlugin);
+
+  // allowing cors
+  await app.register(cors);
 
   // loading all routes with prefix "/api" and following the folder structer:
   // if in folder ./routes/authenticantion => url: api.domain.com/api/authentication
-  app.register(fastifyAutoload, { dir: join(__dirname, "routes"), options: { prefix: "/api" } });
+  await app.register(fastifyAutoload, { dir: join(__dirname, "routes"), options: { prefix: "/api" } });
 
   try {
     await app.listen({ port: 4000, host: "0.0.0.0" });
