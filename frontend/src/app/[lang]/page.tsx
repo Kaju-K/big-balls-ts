@@ -55,7 +55,7 @@ export default async function HomePage({
           priority
           src={homePageImage}
           alt="Man holding a microfone with a graffiti jacekt giving the news"
-          className="w-3/5 flex-shrink-0 object-cover"
+          className="w-3/5 flex-shrink-0 object-cover object-top"
         />
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CircleUser, Menu, SprayCan, Search, Languages } from "lucide-react";
+import { CircleUser, Menu, SprayCan, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,11 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { LanguagesDictionary } from "@/types/dictionary";
 import { locales } from "@/utils/locales";
 import { usePathname, useRouter } from "next/navigation";
+import logo from "@/../../public/logo.png";
+import Image from "next/image";
 
 export function NavComponent({
   lang,
@@ -39,9 +40,9 @@ export function NavComponent({
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href={`/${lang}`}
-          className="flex items-center gap-2 text-lg font-semibold text-muted-foreground hover:text-foreground md:text-base"
+          className="flex w-20 shrink-0 items-center gap-2 text-lg font-semibold text-muted-foreground hover:text-foreground md:text-base"
         >
-          <SprayCan className="h-6 w-6" />
+          <Image priority src={logo} alt="Big Balls logo" />
           <span className="sr-only">Big Balls</span>
         </Link>
         {dict.navbar.links.map(
@@ -99,22 +100,12 @@ export function NavComponent({
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder={dict.navbar.search}
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
               size="icon"
-              className="rounded-md text-muted-foreground hover:text-foreground"
+              className="ml-auto rounded-md text-muted-foreground hover:text-foreground"
             >
               <Languages className="h-5 w-5" />
               <span className="sr-only">
