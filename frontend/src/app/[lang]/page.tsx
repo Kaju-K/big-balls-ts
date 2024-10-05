@@ -31,7 +31,7 @@ export default function HomePage({
           priority
         />
         <Link
-          href={`/${lang}/sign-in`}
+          href={`/${lang}/sign-up`}
           className="absolute bottom-5 right-5 rounded-2xl bg-background px-6 py-1 text-2xl text-accent-foreground"
         >
           Inscrever-se
@@ -40,7 +40,7 @@ export default function HomePage({
       <div className="relative w-full">
         <Image src={homeBallImage} alt="" sizes="100w" className="w-full" />
         <div className="absolute left-1/2 top-1/2 z-10 flex w-4/5 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-4 text-center text-2xl">
-        {/* Tough guy */}
+          {/* Tough guy */}
           <h2 className="text-secondary-foreground">Fala, Marrento!</h2>
           <p className="text-accent-foreground">
             Big Balls é sua nova aposta para aquele bolão entre amigos,
@@ -48,7 +48,7 @@ export default function HomePage({
             <br /> E aí, você tem?
           </p>
           <Link
-            href={`/${lang}/sign-in`}
+            href={`/${lang}/sign-up`}
             className="rounded-2xl bg-destructive-foreground px-6 py-1 text-accent-foreground"
           >
             Inscrever-se
