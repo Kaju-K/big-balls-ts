@@ -10,5 +10,17 @@
     "login": "Entrar",
     "languages-screen-reader": "Mudar língua",
     "avatar-screen-reader": "Abrir opções de usuário"
+  },
+  "homePage": {
+    "heroSection": {
+      "title": {
+        "firstPart": "Junte-se ao",
+        "secondPart": "e prove que você é o melhor"
+      },
+      "subtitle": "Big Balls, do bom e velho português: Bolão. Crie grupos com seus amigos e mostre quem sabe mais!",
+      "formPlaceholder": "Procure por ligas ou usuários",
+      "login": "Entrar",
+      "signup": "Registrar"
+    }
   }
 }

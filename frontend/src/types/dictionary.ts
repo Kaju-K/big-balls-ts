@@ -7,6 +7,20 @@ interface Navbar {
   "avatar-screen-reader": string;
 }
 
+interface HomePage {
+  heroSection: {
+    title: {
+      firstPart: string;
+      secondPart: string;
+    };
+    subtitle: string;
+    formPlaceholder: string;
+    login: string;
+    signup: string;
+  };
+}
+
 export interface LanguagesDictionary {
   navbar: Navbar;
+  homePage: HomePage;
 }

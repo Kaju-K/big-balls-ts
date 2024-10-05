@@ -10,5 +10,17 @@
     "login": "Log In",
     "languages-screen-reader": "Change language",
     "avatar-screen-reader": "Open user options"
+  },
+  "homePage": {
+    "heroSection": {
+      "title": {
+        "firstPart": "Join",
+        "secondPart": "and prove you are the biggest"
+      },
+      "subtitle": "Big Balls is the platform for you and your friends to create a group to bet on games of a league and show that you know more!",
+      "formPlaceholder": "Search for a league or a user",
+      "login": "Login",
+      "signup": "Sign up"
+    }
   }
 }
