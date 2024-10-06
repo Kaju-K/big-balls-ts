@@ -9,4 +9,6 @@ export interface User {
 
 export type CreateUser = Pick<User, "username" | "email" | "password">;
 
+export type LoginUser = Pick<User, "email" | "password">;
+
 export type FindUser = Pick<User, "id" | "username" | "email">;

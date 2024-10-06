@@ -7,3 +7,12 @@ export const createUserSchemaBody = {
     password: { type: "string", minLength: 7 }
   }
 };
+
+export const loginUserSchemaBody = {
+  type: "object",
+  required: ["email", "password"],
+  properties: {
+    email: { type: "string" },
+    password: { type: "string", minLength: 7 }
+  }
+};

@@ -17,6 +17,7 @@ model User {
   chearingteamId Int?
   League         League[]
   Participant    Participant[]
+  isValidated    Boolean       @default(false)
 
   @@map("users")
 }

@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { CreateUser, FindUser } from "../types/user";
+import { PrismaClient } from "@prisma/client";
+import { CreateUser, FindUser, User } from "../types/user";
 import { RequireAtLeastOne } from "../types/general";
 
 export const user = {
@@ -8,8 +8,8 @@ export const user = {
     return user;
   },
 
-  async findOne(prisma: PrismaClient, search: RequireAtLeastOne<FindUser>) {
-    const user = await prisma.user.findUnique({ where: search });
+  async findOne(prisma: PrismaClient, search: RequireAtLeastOne<FindUser>, select = {}) {
+    const user = await prisma.user.findUnique({ where: search, select: Object.keys(select).length ? select : undefined });
     return user;
   }
 };
