@@ -34,7 +34,7 @@ export default async function AllPagesLayout({
   const dict: LanguagesDictionary = await getDictionary(lang);
   return (
     <html lang={lang} className={`dark ${poppins.className}`}>
-      <body>
+      <body className="bg-background">
         <NavComponent lang={lang} dict={dict} />
         {children}
         <Footer />

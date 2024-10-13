@@ -99,7 +99,14 @@ export function NavComponent({
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+      <Link
+        href={`/${lang}`}
+        className="mx-auto flex w-20 shrink-0 items-center md:hidden"
+      >
+        <Image priority src={logo} alt="Big Balls logo" />
+        <span className="sr-only">Big Balls</span>
+      </Link>
+      <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

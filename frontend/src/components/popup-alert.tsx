@@ -15,7 +15,7 @@ interface PopupAlertProps {
   duration?: number;
 }
 
-export function PopupAlertComponent({
+export default function PopupAlertComponent({
   type,
   title,
   message,

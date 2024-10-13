@@ -12,13 +12,78 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { LoginUserFetch } from "@/types/user";
+import { login } from "@/services/user/login";
+import { validateEmail } from "@/globals/email-validation";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import { saveCookie } from "@/actions/cookies";
 
-export const description =
-  "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
+const PopupAlertComponent = dynamic(() => import("./popup-alert"), {
+  ssr: false,
+});
+
+interface PopupAlertProps {
+  type: "success" | "error";
+  title: string;
+  message: string;
+  show: boolean;
+}
 
 export function LoginForm({ lang }: { lang: string }) {
+  const [alertProps, setAlertProps] = useState<PopupAlertProps>({
+    show: false,
+    type: "success",
+    title: "",
+    message: "",
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<LoginUserFetch>();
+
+  const onSubmit: SubmitHandler<LoginUserFetch> = async (userData) => {
+    const res = await login(userData);
+    console.log(res.token);
+
+    if (!res.success) {
+      if (res.isUserFound === false) {
+        return setError("email", {
+          type: "custom",
+          message: `${res.message}`,
+        });
+      }
+      if (res.isPasswordRight === false) {
+        return setError("password", {
+          type: "custom",
+          message: `${res.message}`,
+        });
+      }
+      return setAlertProps({
+        show: true,
+        type: "error",
+        title: "Error!",
+        message: `${res.message} Please Try again later.`,
+      });
+    }
+
+    const token = res.token;
+    const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 5);
+
+    saveCookie("session", token, expires);
+  };
+
   return (
     <Card className="mx-auto w-3/4 max-w-sm">
+      <PopupAlertComponent
+        {...alertProps}
+        onDismiss={() => setAlertProps((prev) => ({ ...prev, show: false }))}
+        duration={10000}
+      />
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -26,15 +91,19 @@ export function LoginForm({ lang }: { lang: string }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
               placeholder="your@email.com"
-              required
+              {...register("email", {
+                required: "Email is required",
+                validate: validateEmail,
+              })}
             />
+            {errors.email && <span>{errors.email.message}</span>}
           </div>
           <div className="grid gap-2">
             <div className="flex items-center">
@@ -46,7 +115,15 @@ export function LoginForm({ lang }: { lang: string }) {
                 Forgot your password?
               </Link>
             </div>
-            <Input id="password" type="password" required />
+            <Input
+              id="password"
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: 8,
+              })}
+            />
+            {errors.password && <span>{errors.password.message}</span>}
           </div>
           <Button type="submit" className="w-full">
             Login
@@ -54,7 +131,7 @@ export function LoginForm({ lang }: { lang: string }) {
           {/* <Button variant="outline" className="w-full">
             Login with Google
           </Button> */}
-        </div>
+        </form>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href={`/${lang}/sign-up`} className="underline">

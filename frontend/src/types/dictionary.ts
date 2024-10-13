@@ -18,6 +18,19 @@ interface HomePage {
     login: string;
     signup: string;
   };
+  sectionKnowMore: {
+    title: string;
+    subtitle: string;
+    text: string;
+    button: string;
+  };
+  sectionCreateLeague: {
+    title: string;
+    subtitle: string;
+    text: string;
+    createButton: string;
+    joinButton: string;
+  };
 }
 
 export interface LanguagesDictionary {

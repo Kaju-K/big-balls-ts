@@ -9,6 +9,8 @@ export interface User {
 
 export type CreateUserFetch = Pick<User, "username" | "email" | "password">;
 
+export type LoginUserFetch = Pick<User, "email" | "password">;
+
 export type CreateUserForm = Pick<User, "username" | "email" | "password"> & {
   repeatedPassword: string;
 };

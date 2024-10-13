@@ -16,8 +16,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { CreateUserForm } from "@/types/user";
 import { validateEmail } from "@/globals/email-validation";
 import { signUp } from "@/services/user/signUp";
-import { PopupAlertComponent } from "./popup-alert";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const PopupAlertComponent = dynamic(() => import("./popup-alert"), {
+  ssr: false,
+});
 
 interface PopupAlertProps {
   type: "success" | "error";
@@ -102,7 +106,7 @@ export default function SignForm({ lang }: { lang: string }) {
               placeholder="m@example.com"
               {...register("email", {
                 required: "Email is required",
-                validate: (value) => validateEmail(value),
+                validate: validateEmail,
               })}
             />
             {errors.email && (

@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { CreateUser, LoginUser, User } from "../types/user.js";
+import { CreateUser, LoginUser, TokenDataUser, User } from "../types/user.js";
 import { user } from "../models/user.js";
 import { saltRounds } from "../globals/authentication.js";
 import bcrypt from "bcrypt";
@@ -30,7 +30,7 @@ export async function loginUser(req: FastifyRequest<{ Body: LoginUser }>, reply:
   try {
     const userFound = await user.findOne(fastify.prisma, { email });
     if (!userFound) {
-      return reply.code(400).send({ success: false, message: "User does not exist", isUserFound: false });
+      return reply.code(400).send({ success: false, message: "Email is incorrect", isUserFound: false });
     }
 
     const passwordMatch = await bcrypt.compare(password, userFound.password);
@@ -39,14 +39,18 @@ export async function loginUser(req: FastifyRequest<{ Body: LoginUser }>, reply:
       return reply.code(400).send({ success: false, message: "Wrong Password", isPasswordRight: false });
     }
 
-    const tokenData = {
+    const tokenData: TokenDataUser = {
       username: userFound.username,
       email: userFound.email
     };
 
+    if (userFound.chearingteamId) {
+      tokenData.chearingteamId = userFound.chearingteamId;
+    }
+
     const tokenSecret = process.env.TOKEN_SECRET as string;
 
-    const token = jwt.sign(tokenData, tokenSecret, { expiresIn: "5 days" });
+    const token = jwt.sign(tokenData, tokenSecret, { expiresIn: "5 days", subject: "test" });
 
     return reply.code(200).send({ success: true, token });
   } catch (err) {

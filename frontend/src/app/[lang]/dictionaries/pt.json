@@ -21,6 +21,19 @@
       "formPlaceholder": "Procure por ligas ou usuários",
       "login": "Entrar",
       "signup": "Registrar"
+    },
+    "sectionKnowMore": {
+      "title": "Fala, Marrento!",
+      "subtitle": "É simples! É divertido! E é de graça!",
+      "text": "Big Balls é sua nova aposta para aquele bolão entre amigos, marrentos como você.",
+      "button": "Saiba Mais"
+    },
+    "sectionCreateLeague": {
+      "title": "Somos Marrentos, mas somos facinhos!",
+      "subtitle": "Crie sua própria liga para apostar com seus amigos ou entre em uma liga já existente.",
+      "text": "É fácil e rápido. Escolha qual torneio você quer apostar, chame seus amigos e curta com a cara dos seus amigos",
+      "createButton": "Crie uma Liga",
+      "joinButton": "Junte-se a uma Liga"
     }
   }
 }

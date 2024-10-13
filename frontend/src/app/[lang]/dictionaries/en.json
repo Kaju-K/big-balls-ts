@@ -21,6 +21,19 @@
       "formPlaceholder": "Search for a league or a user",
       "login": "Login",
       "signup": "Sign up"
+    },
+    "sectionKnowMore": {
+      "title": "Hey, Tough Guy!",
+      "subtitle": "It's simple! It's fun! And it's free!",
+      "text": "Big Balls is your new bet to challenge your friends, that are tough like you.",
+      "button": "Know More"
+    },
+    "sectionCreateLeague": {
+      "title": "We are tough, but also easy!",
+      "subtitle": "Create your own league to bet with your friends or subscribe to an existing one.",
+      "text": "It's simple and easy. Choose which tournament you want to follow, invite your friends and make fun of each other.",
+      "createButton": "Create League",
+      "joinButton": "Join League"
     }
   }
 }
