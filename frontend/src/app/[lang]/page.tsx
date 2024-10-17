@@ -7,6 +7,7 @@ import paintSplash from "@/../public/paint-splash.png";
 import graffitiFootball from "@/../public/graffiti-football.png";
 import SectionKnowMore from "./components/SectionKnowMore";
 import SectionCreateLeague from "./components/SectionCreateLeague";
+import { getSession } from "@/services/user/session";
 
 export default async function HomePage({
   params: { lang },
@@ -14,6 +15,9 @@ export default async function HomePage({
   params: { lang: string };
 }) {
   const dict: LanguagesDictionary = await getDictionary(lang);
+
+  const session = await getSession();
+  // console.log(session);
 
   return (
     <div className="flex flex-col items-center">

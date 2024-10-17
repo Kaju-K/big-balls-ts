@@ -5,6 +5,7 @@ export interface User {
   password: string;
   createdAt: Date;
   chearingteamId: number | null;
+  isValidated: boolean;
 }
 
 export type CreateUser = Pick<User, "username" | "email" | "password">;
@@ -13,4 +14,8 @@ export type LoginUser = Pick<User, "email" | "password">;
 
 export type FindUser = Pick<User, "id" | "username" | "email">;
 
-export type TokenDataUser = Pick<User, "username" | "email"> & Partial<Pick<User, "chearingteamId">>;
+export type AccessTokenDataUser = Pick<User, "username" | "email"> & Partial<Pick<User, "chearingteamId">>;
+
+export interface RefreshTokenReq {
+  refreshToken: string;
+}

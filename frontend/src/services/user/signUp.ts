@@ -5,11 +5,11 @@ import { clientFetch } from "@/utils/defineFetchOptions";
 export async function signUp(credentials: CreateUserFetch) {
   try {
     const res = await clientFetch(`${apiUrl}/user/create-user`, {
-      cache: "no-store",
+      cache: "no-cache",
       method: "POST",
       body: credentials,
     });
-    return await res.json();
+    return res;
   } catch {
     return {
       success: false,

@@ -16,9 +16,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginUserFetch } from "@/types/user";
 import { login } from "@/services/user/login";
 import { validateEmail } from "@/globals/email-validation";
+import { accessTokenExpiration, refreshTokenExpiration } from "@/globals/times";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { saveCookie } from "@/actions/cookies";
+import { useRouter } from "next/navigation";
 
 const PopupAlertComponent = dynamic(() => import("./popup-alert"), {
   ssr: false,
@@ -46,18 +48,20 @@ export function LoginForm({ lang }: { lang: string }) {
     formState: { errors },
   } = useForm<LoginUserFetch>();
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<LoginUserFetch> = async (userData) => {
     const res = await login(userData);
-    console.log(res.token);
 
     if (!res.success) {
+      // TODO: fix this messages to come from dict file -> so we can show the error in different languages and not depend on server language answer
       if (res.isUserFound === false) {
         return setError("email", {
           type: "custom",
           message: `${res.message}`,
         });
       }
-      if (res.isPasswordRight === false) {
+      if (res.isPasswordWrong === true) {
         return setError("password", {
           type: "custom",
           message: `${res.message}`,
@@ -71,10 +75,18 @@ export function LoginForm({ lang }: { lang: string }) {
       });
     }
 
-    const token = res.token;
-    const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 5);
+    const accessToken = res.accessToken;
+    const refreshToken = res.refreshToken;
 
-    saveCookie("session", token, expires);
+    // await saveCookie("accessToken", accessToken, accessTokenExpiration);
+    await saveCookie(
+      "refreshToken",
+      refreshToken,
+      refreshTokenExpiration,
+      true,
+    );
+
+    router.push("/");
   };
 
   return (

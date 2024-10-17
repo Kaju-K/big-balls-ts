@@ -15,7 +15,7 @@ model User {
   password       String
   chearingTeam   Team?         @relation("ChearingTeam", fields: [chearingteamId], references: [id])
   chearingteamId Int?
-  League         League[]
+  Group          Group[]
   Participant    Participant[]
   isValidated    Boolean       @default(false)
 
@@ -25,6 +25,7 @@ model User {
 model Team {
   id           Int           @id @default(autoincrement())
   name         String
+  logo         String
   ChearingUser User[]        @relation("ChearingTeam")
   Participant  Participant[]
   hostGames    Game[]        @relation("HostTeam")
@@ -33,7 +34,7 @@ model Team {
   @@map("teams")
 }
 
-model League {
+model Group {
   id               Int           @id @default(autoincrement())
   User             User          @relation(fields: [ownerId], references: [id])
   ownerId          Int
@@ -43,50 +44,50 @@ model League {
   coverImage       String?
   description      String?       @db.VarChar(200)
   rule             String        @default("normal") // check better naming
-  LeagueGame       LeagueGame[]
+  GroupGame        GroupGame[]
   private          Boolean       @default(true)
   isPasswordNeeded Boolean?
   password         String
-  Tournment        Tournment     @relation(fields: [tournmentId], references: [id])
-  tournmentId      Int
+  League           League        @relation(fields: [leagueId], references: [id])
+  leagueId         Int
 
-  @@map("leagues")
+  @@map("groups")
 }
 
 model Participant {
   id           Int      @id @default(autoincrement())
   User         User     @relation(fields: [userId], references: [id])
   userId       Int
-  League       League   @relation(fields: [leagueId], references: [id])
-  leagueId     Int
+  Group        Group    @relation(fields: [groupId], references: [id])
+  groupId      Int
   dateEntrance DateTime @default(now())
   points       Int      @default(0)
   Team         Team[]
   Bet          Bet[]
   isActive     Boolean  @default(true)
 
-  @@unique([userId, leagueId])
+  @@unique([userId, groupId])
   @@map("participants")
 }
 
-model LeagueGame {
+model GroupGame {
   id           Int     @id @default(autoincrement())
   Bet          Bet[]
-  League       League  @relation(fields: [leagueId], references: [id])
-  leagueId     Int
+  Group        Group   @relation(fields: [groupId], references: [id])
+  groupId      Int
   Game         Game    @relation(fields: [gameId], references: [id])
   gameId       Int
   isOpenForBet Boolean @default(true)
 
-  @@map("league_games")
+  @@map("group_games")
 }
 
 model Bet {
   id            Int         @id @default(autoincrement())
   isBetCorrect  Boolean?
   dateCreated   DateTime    @default(now())
-  LeagueGame    LeagueGame  @relation(fields: [leagueGameId], references: [id])
-  leagueGameId  Int
+  GroupGame     GroupGame   @relation(fields: [groupGameId], references: [id])
+  groupGameId   Int
   Participant   Participant @relation(fields: [participantId], references: [id])
   participantId Int
   betAmount     Int
@@ -96,7 +97,7 @@ model Bet {
 
 model Game {
   id            Int               @id @default(autoincrement())
-  LeagueGame    LeagueGame[]
+  GroupGame     GroupGame[]
   dateGame      DateTime
   hostTeam      Team              @relation("HostTeam", fields: [hostTeamId], references: [id])
   visitorTeam   Team              @relation("VisitorTeam", fields: [visitorTeamId], references: [id])
@@ -109,21 +110,21 @@ model Game {
   @@map("games")
 }
 
-model Tournment {
+model League {
   id         Int       @id @default(autoincrement())
   name       String
   dateStart  DateTime
   dateFinish DateTime?
   Round      Round[]
-  League     League[]
+  Group      Group[]
 
-  @@map("tournments")
+  @@map("leagues")
 }
 
 model Round {
-  id          Int       @id @default(autoincrement())
-  Tournment   Tournment @relation(fields: [tournmentId], references: [id])
-  tournmentId Int
+  id          Int    @id @default(autoincrement())
+  League      League @relation(fields: [leagueId], references: [id])
+  leagueId    Int
   roundNumber Int
 
   @@map("rounds")
